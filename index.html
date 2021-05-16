@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>mapa practica</title>
+  <script src="js/leaflet.js"></script>
+ <link rel="stylesheet" href="css/leaflet.css">
+  <style>
+     body {
+    padding: 0;
+    margin: 0;
+    }
+    html, body, #map {
+    height: 100%;
+    width: 96%;
+    background: rgb(248, 224, 204);
+    }
+
+    #title {
+                position: fixed;
+                top: 10px;
+                left: 900px;
+                margin-top: 0;
+                padding: 10px 15px;
+                background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Partido_Obrero_de_Unificaci%C3%B3n_Marxista_flag.svg/330px-Partido_Obrero_de_Unificaci%C3%B3n_Marxista_flag.svg.png");
+                background-color: rgb(239,0,0);
+                background-repeat: no-repeat;
+                background-position: right left;
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 1200;
+                text-align: center;
+                color: black ;
+                text-shadow: 2px 2px 4px #444444;
+                box-shadow: 2px 2px 4px #444444;
+                font: italic small-caps bold 30px Arial, sans-serif;
+            } 
+            /*POPUP*/
+            .custom .leaflet-popup-tip,
+            .custom .leaflet-popup-content-wrapper {
+            background: #f9ead9;
+            color: #654321;
+            text-align: center;
+            box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
+            }
+
+            #description {
+                position: fixed;
+                bottom: 150px;
+                right: 15px;
+                width: 175px;
+                padding: 2px 10px;
+                background-color: rgba(239, 0, 0, 0.8);
+                border: 1px solid rgb(0, 0, 0);
+                border-radius: 3px;
+                color:rgb(255, 255, 255);
+                font: Arial;
+                text-align: left;
+                text-shadow: 2px 2px 4px #000000;
+                box-shadow: 2px 2px 4px #444444;
+                z-index: 500;
+            }
+
+            #description2 {
+                position: fixed;
+                bottom: 425px;
+                right: 15px;
+                width: 175px;
+                padding: 2px 10px;
+                background-color: rgba(239, 0, 0, 0.8);
+                border: 1px solid rgb(0, 0, 0);
+                border-radius: 3px;
+                color:rgb(255, 255, 255);
+                font: Arial;
+                text-align: justify;
+                text-shadow: 2px 2px 4px #000000;
+                box-shadow: 2px 2px 4px #444444;
+                z-index: 500;
+            }
+ </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+   <h1 id="title">Avance del POUM<br>en Julio-Agosto de 1936</h1>
+   <div id="description">
+    <h2>1ª Columna del POUM</h2>
+    <p><b>Origen:</b> Barcelona <br> <b>Mando:</b> Manuel Grossi, Jordi Arquer, Françesc Piqué <br> <b>Efectivos:</b> milicianos del POUM, algunos italianos <br> <b>1000h.</b> </div>
+    <div id="description2">
+    <h3></h3>
+    <p>El <b>POUM</b> o Partido Obrero de Unificación Marxista, nació en 1935 de la fusión de dos partidos, el Bloque Obrero y Campesino y la Izquierda Comunista de España.<br><img src='https://www.fideus.com/poum.jpg' alt='poum' height="200px"/></div>
+
+    </div>
+
+       <script>
+        let map = L.map("map", {center: [41.616608472277335, 0.6220804870879073], zoom: 25});
+        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 9,
+	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    }).addTo(map);
+
+    var myGeoJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "id": "8a45425a-43fe-4f41-9ba3-8b556fde8c91", "geometry": {"type": "Polygon", "coordinates": [[[3.10837099, 42.44212697], [3.23500314, 41.87892339], [1.69853268, 41.1583447], [0.29713703, 40.43618198], [-0.23156634, 39.68384126], [-2.54169274, 39.84841887], [-3.51081877, 39.93488053], [-2.92483583, 40.93836204], [-0.3217171, 41.13386419], [-0.10760851, 42.0189856], [0.37695493, 42.72661499], [0.8277113, 42.8093411], [3.10837099, 42.44212697]]]}, "properties": {"name": "Bando_Republicano",}}, {"type": "Feature", "id": "b6059c41-570b-41f8-aaec-4ebde85aa3a4", "geometry": {"type": "Polygon", "coordinates": [[[0.37695493, 42.72661499], [-1.21196111, 43.04038656], [-2.530424, 42.67692642], [-2.92483583, 40.93836204], [-0.3217171, 41.13386419], [-0.10760851, 42.0189856], [0.37695493, 42.72661499]]]}, "properties": {"name": "bando_sublevado"}}]}
+
+    L.geoJSON(myGeoJSON, {
+    style: function(feature) {
+        switch (feature.properties.name) {
+            case 'Bando_Republicano': return {color: "#ff0000", opacity: 0.1};
+            case 'bando_sublevado':   return {color: "#0000ff", opacity: 0.1};
+        }
+    }
+}).addTo(map)
+
+    var customPopup = "Nada más conocerse la sublevación, <br> varias columnas de milicianos <br> parten hacia el Oeste.";
+    var customPopup1 = "El POUM expropia el Café Cal Jam.<br/><img src='https://historiadesabadell1.files.wordpress.com/2021/02/cartell-de-propaganda-del-poum-al-carrer-tres-creus.-desembre-de-1936.-antoni-marti-baste-fbc.jpg?w=637' alt='poumsabadell' height='150px'/>";
+    var customPopup2 = "Francesc Aguilar, dirigente del POUM, 1936: <br> <i> El fracaso del fascismo en Lérida se debe exclusivamente a los obreros. A nadie más que a ellos. Ningún elemento de la Esquerra ni de otro sector republicano no se ha visto por ninguna parte. Y hoy, en Lérida, todo el poder político está en manos de la clase trabajadora.</i>"
+    var customPopup3 = "<b></b><a href='https://www.eldiario.es/aragon/sociedad/fusilamientos-cementerio-monzon-guerra-civil_1_2102655.html'>Los fusilamientos en el cementerio parroquial de Monzón, otro capítulo olvidado de la Guerra Civil que busca la luz</a>"
+    var customPopup4 = "A las columnas formadas en Cataluña se les unió la guarnición de Barbastro y numerosos voluntarios aragoneses, dando como resultado una progresión que les llevó a las puertas de Sabiñánigo, Huesca, Almudevar y Teruel, localidades que no pudieron ocupar, pero quedaron casi cercadas."
+    var customPopup5 ="Milicianos del POUM en la Sierra de Alcubierre en el frente de Aragón.<br/><img src='https://i.pinimg.com/564x/b1/cb/bc/b1cbbc0257d141bb25ae83bdfae50952.jpg' alt='poumalcubierre' width='350px'/>"
+    var customPopup6 = "La columna del POUM asegura la localidad de Lanaja y va a combatir con gran dureza por la sierra de Alcubierre, sin conseguir, no obstante, tomar Leciñena."
+
+    var customOptions =
+        {
+        'maxWidth': '500',
+        'className' : 'custom'
+        }
+
+    let line = L.polyline(
+    [ [41.39614492685721, 2.201499503637549], [41.54594085493192, 2.108775292187176],[41.61879013046404, 0.6202780425364055],[41.91155775623897, 0.19266439998057913],[42.034983858455945, 0.1260351703442736],[41.807904026637935, -0.45321552329583914],[41.79790947079967, -0.6128006971017262]],
+     {color: "red", weight: 4}
+    ) .addTo(map);
+      
+    let circle = L.circleMarker ([41.54594085493192, 2.108775292187176],
+    {radius: 7, color: "red", fill: "black"}).bindPopup(customPopup1,customOptions).addTo (map);
+    L.circleMarker ([41.39614492685721, 2.201499503637549],
+    {radius: 7, color: "red", fill: "black"}).bindPopup(customPopup,customOptions).addTo (map);
+    L.circleMarker ([41.61879013046404, 0.6202780425364055],
+    {radius: 7, color: "red", fill: "black"}).bindPopup(customPopup2,customOptions).addTo (map);
+    L.circleMarker ([41.91155775623897, 0.19266439998057913],
+    {radius: 7, color: "red", fill: "black"}).bindPopup(customPopup3,customOptions).addTo (map);
+    L.circleMarker ([42.034983858455945, 0.1260351703442736],
+    {radius: 7, color: "red", fill: "black"}).bindPopup(customPopup4,customOptions).addTo (map);
+    L.circleMarker ([41.807904026637935, -0.45321552329583914],
+    {radius: 7, color: "red", fill: "black"}).bindPopup(customPopup5,customOptions).addTo (map);
+    L.circleMarker ([41.79790947079967, -0.6128006971017262],
+    {radius: 7, color: "red", fill: "black"}).bindPopup(customPopup6,customOptions).addTo (map);
+
+
+
+
+</script>
+
+</body>
+</html>
